@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_asset_picker/form_builder_asset_picker.dart';
 
@@ -61,6 +60,8 @@ class _HomePageState extends State<HomePage> {
                       if (_checkExt == false) {
                         return 'File extension not allowed';
                       }
+
+                      return null;
                     })
               ])),
           ButtonBar(alignment: MainAxisAlignment.center, children: [
