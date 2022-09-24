@@ -90,7 +90,7 @@ class FormBuilderAssetPicker extends FormBuilderField<List<PlatformFile>> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      if (maxFiles != null)
+                      if (maxFiles != null && maxFiles > 1)
                         Text('${state._files!.length} / $maxFiles'),
                       InkWell(
                         onTap: state.enabled &&
@@ -176,6 +176,7 @@ class _FormBuilderAssetPickerState
         files!.length,
         (index) {
           return Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
                 files[index].name,
