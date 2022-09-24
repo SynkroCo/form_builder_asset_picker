@@ -82,26 +82,23 @@ class FormBuilderAssetPicker extends FormBuilderField<List<PlatformFile>> {
             final state = field as _FormBuilderAssetPickerState;
 
             return InputDecorator(
-              decoration: state.decoration,
+              decoration: state.decoration.copyWith(
+                helperText: (maxFiles != null && maxFiles > 1)
+                    ? '${state._files!.length} / $maxFiles'
+                    : null,
+                suffix: IconButton(
+                  icon: const Icon(Icons.upload),
+                  onPressed: state.enabled &&
+                          (null == state._remainingItemCount ||
+                              state._remainingItemCount! > 0)
+                      ? () => state.pickFiles(field)
+                      : null,
+                ),
+              ),
 
               /// To place the 'button' at the beginning, and to size it
               child: Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      if (maxFiles != null && maxFiles > 1)
-                        Text('${state._files!.length} / $maxFiles'),
-                      InkWell(
-                        onTap: state.enabled &&
-                                (null == state._remainingItemCount ||
-                                    state._remainingItemCount! > 0)
-                            ? () => state.pickFiles(field)
-                            : null,
-                        child: selector,
-                      )
-                    ],
-                  ),
                   const SizedBox(height: 3),
                   Visibility(
                     visible: previewNames,
@@ -166,34 +163,36 @@ class _FormBuilderAssetPickerState
   }
 
   Widget defaultFileViewer(
-      List<PlatformFile>? files, FormFieldState<List<PlatformFile>?> field) {
-    return Wrap(
-      crossAxisAlignment: WrapCrossAlignment.start,
-      direction: Axis.vertical,
-      runSpacing: 10,
-      spacing: 10,
+    List<PlatformFile>? files,
+    FormFieldState<List<PlatformFile>?> field,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: List.generate(
         files!.length,
         (index) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text(
-                files[index].name,
-                style: Theme.of(context).textTheme.caption,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              if (enabled)
-                InkWell(
-                  onTap: () => removeFileAtIndex(index, field),
-                  child: Icon(
-                    widget.deleteIcon,
-                    size: 18,
-                    color: Colors.black,
+          return Padding(
+            padding: const EdgeInsets.only(top: 4.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                if (enabled)
+                  InkWell(
+                    onTap: () => removeFileAtIndex(index, field),
+                    child: Icon(
+                      widget.deleteIcon,
+                      size: 18,
+                      color: Colors.black,
+                    ),
                   ),
+                Text(
+                  files[index].name,
+                  style: Theme.of(context).textTheme.caption,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
-            ],
+              ],
+            ),
           );
         },
       ),

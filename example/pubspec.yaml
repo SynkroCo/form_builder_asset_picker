@@ -11,19 +11,19 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_form_builder: ^7.0.0
-  form_builder_asset_picker: ^1.1.0
-
+  flutter_form_builder: ^7.6.0
+  form_builder_asset_picker:
+    path: ../
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^1.0.5
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^1.0.0
+  flutter_lints: ^2.0.1
 
 # The following section is specific to Flutter.
 flutter:
