@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 /// Field to pick files from user device storage
@@ -39,6 +38,9 @@ class FormBuilderAssetPicker extends FormBuilderField<List<PlatformFile>> {
   /// that will give you the current status of picking.
   final void Function(FilePickerStatus)? onFileLoading;
 
+  /// Icon of the button to delete a file
+  final IconData deleteIcon;
+
   FormBuilderAssetPicker({
     Key? key,
     required String name,
@@ -62,46 +64,54 @@ class FormBuilderAssetPicker extends FormBuilderField<List<PlatformFile>> {
     this.onFileLoading,
     this.previewNames = true,
     this.selector = const Icon(Icons.add_circle),
+    this.deleteIcon = Icons.close,
   }) : super(
-            key: key,
-            name: name,
-            initialValue: initialValue,
-            validator: validator,
-            valueTransformer: valueTransformer,
-            onChanged: onChanged,
-            autovalidateMode: autovalidateMode,
-            onSaved: onSaved,
-            enabled: enabled,
-            onReset: onReset,
-            decoration: decoration,
-            focusNode: focusNode,
-            builder: (FormFieldState<List<PlatformFile>?> field) {
-              final state = field as _FormBuilderAssetPickerState;
+          key: key,
+          name: name,
+          initialValue: initialValue,
+          validator: validator,
+          valueTransformer: valueTransformer,
+          onChanged: onChanged,
+          autovalidateMode: autovalidateMode,
+          onSaved: onSaved,
+          enabled: enabled,
+          onReset: onReset,
+          decoration: decoration,
+          focusNode: focusNode,
+          builder: (FormFieldState<List<PlatformFile>?> field) {
+            final state = field as _FormBuilderAssetPickerState;
 
-              return InputDecorator(
-                  decoration: state.decoration,
+            return InputDecorator(
+              decoration: state.decoration,
 
-                  /// To place the 'button' at the beginning, and to size it
-                  child: Column(children: [
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          if (maxFiles != null)
-                            Text('${state._files!.length} / $maxFiles'),
-                          InkWell(
-                              onTap: state.enabled &&
-                                      (null == state._remainingItemCount ||
-                                          state._remainingItemCount! > 0)
-                                  ? () => state.pickFiles(field)
-                                  : null,
-                              child: selector)
-                        ]),
-                    const SizedBox(height: 3),
-                    Visibility(
-                        visible: previewNames,
-                        child: state.defaultFileViewer(state._files, field))
-                  ]));
-            });
+              /// To place the 'button' at the beginning, and to size it
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      if (maxFiles != null)
+                        Text('${state._files!.length} / $maxFiles'),
+                      InkWell(
+                        onTap: state.enabled &&
+                                (null == state._remainingItemCount ||
+                                    state._remainingItemCount! > 0)
+                            ? () => state.pickFiles(field)
+                            : null,
+                        child: selector,
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: 3),
+                  Visibility(
+                    visible: previewNames,
+                    child: state.defaultFileViewer(state._files, field),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
 
   @override
   _FormBuilderAssetPickerState createState() => _FormBuilderAssetPickerState();
@@ -158,20 +168,34 @@ class _FormBuilderAssetPickerState
   Widget defaultFileViewer(
       List<PlatformFile>? files, FormFieldState<List<PlatformFile>?> field) {
     return Wrap(
-        direction: Axis.vertical,
-        runSpacing: 10,
-        spacing: 10,
-        children: List.generate(files!.length, (index) {
-          return Row(children: [
-            Text(files[index].name,
+      crossAxisAlignment: WrapCrossAlignment.start,
+      direction: Axis.vertical,
+      runSpacing: 10,
+      spacing: 10,
+      children: List.generate(
+        files!.length,
+        (index) {
+          return Row(
+            children: [
+              Text(
+                files[index].name,
                 style: Theme.of(context).textTheme.caption,
                 maxLines: 2,
-                overflow: TextOverflow.ellipsis),
-            if (enabled)
-              InkWell(
+                overflow: TextOverflow.ellipsis,
+              ),
+              if (enabled)
+                InkWell(
                   onTap: () => removeFileAtIndex(index, field),
-                  child: const Icon(Icons.close, size: 18, color: Colors.black))
-          ]);
-        }));
+                  child: Icon(
+                    widget.deleteIcon,
+                    size: 18,
+                    color: Colors.black,
+                  ),
+                ),
+            ],
+          );
+        },
+      ),
+    );
   }
 }
