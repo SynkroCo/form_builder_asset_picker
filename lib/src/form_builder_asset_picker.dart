@@ -13,9 +13,6 @@ class FormBuilderAssetPicker extends FormBuilderField<List<PlatformFile>> {
   /// Default types of files to be picked. Default set to [FileType.any]
   final FileType type;
 
-  /// Widget to be tapped on by user in order to pick files
-  final Widget selector;
-
   /// Whether to preview the name(s) of the file(s)
   final bool previewNames;
 
@@ -63,7 +60,6 @@ class FormBuilderAssetPicker extends FormBuilderField<List<PlatformFile>> {
     this.withReadStream = false,
     this.onFileLoading,
     this.previewNames = true,
-    this.selector = const Icon(Icons.add_circle),
     this.deleteIcon = Icons.close,
   }) : super(
           key: key,
