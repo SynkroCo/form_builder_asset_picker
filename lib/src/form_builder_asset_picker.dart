@@ -82,13 +82,18 @@ class FormBuilderAssetPicker extends FormBuilderField<List<PlatformFile>> {
                 helperText: (maxFiles != null && maxFiles > 1)
                     ? '${state._files!.length} / $maxFiles'
                     : null,
-                suffixIcon: IconButton(
-                  icon: const Icon(Icons.upload),
-                  onPressed: state.enabled &&
-                          (null == state._remainingItemCount ||
-                              state._remainingItemCount! > 0)
-                      ? () => state.pickFiles(field)
-                      : null,
+                suffixIcon: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.upload),
+                      onPressed: state.enabled &&
+                              (null == state._remainingItemCount ||
+                                  state._remainingItemCount! > 0)
+                          ? () => state.pickFiles(field)
+                          : null,
+                    ),
+                  ],
                 ),
               ),
 
