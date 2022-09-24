@@ -88,7 +88,7 @@ class FormBuilderAssetPicker extends FormBuilderField<List<PlatformFile>> {
                     : null,
                 suffixIcon: IconButton(
                   padding: EdgeInsets.zero,
-                  icon: Icon(deleteIcon),
+                  icon: Icon(uploadIcon),
                   onPressed: state.enabled &&
                           (null == state._remainingItemCount ||
                               state._remainingItemCount! > 0)
