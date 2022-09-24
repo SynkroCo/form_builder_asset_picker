@@ -38,6 +38,9 @@ class FormBuilderAssetPicker extends FormBuilderField<List<PlatformFile>> {
   /// Icon of the button to delete a file
   final IconData deleteIcon;
 
+  /// Icon of the button to upload a file
+  final IconData uploadIcon;
+
   FormBuilderAssetPicker({
     Key? key,
     required String name,
@@ -61,6 +64,7 @@ class FormBuilderAssetPicker extends FormBuilderField<List<PlatformFile>> {
     this.onFileLoading,
     this.previewNames = true,
     this.deleteIcon = Icons.close,
+    this.uploadIcon = Icons.upload,
   }) : super(
           key: key,
           name: name,
@@ -82,18 +86,14 @@ class FormBuilderAssetPicker extends FormBuilderField<List<PlatformFile>> {
                 helperText: (maxFiles != null && maxFiles > 1)
                     ? '${state._files!.length} / $maxFiles'
                     : null,
-                suffixIcon: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.upload),
-                      onPressed: state.enabled &&
-                              (null == state._remainingItemCount ||
-                                  state._remainingItemCount! > 0)
-                          ? () => state.pickFiles(field)
-                          : null,
-                    ),
-                  ],
+                suffixIcon: IconButton(
+                  padding: EdgeInsets.zero,
+                  icon: Icon(deleteIcon),
+                  onPressed: state.enabled &&
+                          (null == state._remainingItemCount ||
+                              state._remainingItemCount! > 0)
+                      ? () => state.pickFiles(field)
+                      : null,
                 ),
               ),
 
