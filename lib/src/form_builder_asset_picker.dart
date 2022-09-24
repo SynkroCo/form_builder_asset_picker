@@ -82,7 +82,7 @@ class FormBuilderAssetPicker extends FormBuilderField<List<PlatformFile>> {
                 helperText: (maxFiles != null && maxFiles > 1)
                     ? '${state._files!.length} / $maxFiles'
                     : null,
-                suffix: IconButton(
+                suffixIcon: IconButton(
                   icon: const Icon(Icons.upload),
                   onPressed: state.enabled &&
                           (null == state._remainingItemCount ||
@@ -177,13 +177,13 @@ class _FormBuilderAssetPickerState
                     onTap: () => removeFileAtIndex(index, field),
                     child: Icon(
                       widget.deleteIcon,
-                      size: 18,
+                      size: 24,
                       color: Colors.black,
                     ),
                   ),
                 Text(
                   files[index].name,
-                  style: Theme.of(context).textTheme.caption,
+                  style: Theme.of(context).textTheme.subtitle1,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
