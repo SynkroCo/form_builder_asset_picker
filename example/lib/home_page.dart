@@ -40,10 +40,6 @@ class _HomePageState extends State<HomePage> {
                     maxFiles: 5,
                     type: FileType.custom,
                     decoration: const InputDecoration(border: InputBorder.none),
-                    selector: Row(children: const [
-                      Icon(Icons.file_upload),
-                      Text('Upload')
-                    ]),
                     validator: (val) {
                       if (val == null || val.isEmpty) {
                         return 'Field required';
